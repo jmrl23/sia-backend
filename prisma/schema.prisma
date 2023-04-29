@@ -1,0 +1,129 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ----------
+
+enum Role {
+  ADMIN
+  RESIDENT
+}
+
+enum ResidentStatus {
+  ACTIVE
+  DECEASED
+  RELOCATED
+}
+
+model User {
+  id             String   @unique @default(uuid())
+  dateCreated    DateTime @default(now())
+  dateUpdated    DateTime @updatedAt
+  residentNumber Int      @unique @default(autoincrement())
+
+  enabled  Boolean @default(true)
+  verified Boolean @default(false)
+  email    String
+  password String
+
+  role           Role           @default(RESIDENT)
+  residentStatus ResidentStatus @default(ACTIVE)
+
+  UserInformation UserInformation?
+
+  @@unique([email])
+}
+
+enum Sex {
+  MALE
+  FEMALE
+  INTERSEX
+}
+
+enum BloodType {
+  O
+  A
+  B
+  AB
+}
+
+enum MaritalStatus {
+  SINGLE
+  MARRIED
+  DIVORCED
+  SEPARATED
+  WIDOWED
+}
+
+model UserInformation {
+  id          String   @unique @default(uuid())
+  dateCreated DateTime @default(now())
+  dateUpdated DateTime @updatedAt
+
+  firstName              String
+  middleName             String?
+  lastName               String
+  nameSuffix             String?
+  address                String
+  contactNumber          String?  @unique
+  dateOfBirth            DateTime
+  occupation             String?
+  precinctNumber         String?
+  emergencyContactPerson String?
+
+  sex           Sex
+  bloodType     BloodType?
+  maritalStatus MaritalStatus? @default(SINGLE)
+
+  User   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+
+  Picture   File?   @relation(fields: [pictureId], references: [id])
+  pictureId String? @unique
+
+  @@fulltext([firstName, middleName, lastName, nameSuffix, contactNumber])
+}
+
+model UserVerification {
+  id          String   @unique @default(uuid())
+  dateCreated DateTime @default(now())
+  dateUpdated DateTime @updatedAt
+
+  userId   String
+  code     String
+  expires  DateTime
+  consumed Boolean  @default(false)
+}
+
+model UserResetRequest {
+  id          String   @unique @default(uuid())
+  dateCreated DateTime @default(now())
+  dateUpdated DateTime @updatedAt
+
+  userId   String
+  expires  DateTime
+  consumed Boolean  @default(false)
+}
+
+model File {
+  id          String   @unique @default(uuid())
+  dateCreated DateTime @default(now())
+  dateUpdated DateTime @updatedAt
+
+  fileId          String?           @unique
+  name            String
+  mimeType        String
+  size            Int
+  UserInformation UserInformation[]
+
+  @@index([fileId])
+}

@@ -1,0 +1,13 @@
+# modules
+node_modules/
+
+# compiled
+dist/
+prisma/migrations/
+
+# env files
+prisma/.env
+.env*local
+
+# extras
+ssh-key.pub
