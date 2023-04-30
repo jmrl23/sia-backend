@@ -2,7 +2,7 @@
 
 Explicit values
 
-```
+```prisma
 enum Role {
   ADMIN
   RESIDENT

@@ -13,10 +13,11 @@ import { PrismaService } from './common/services/prisma/prisma.service';
 import { RequestUserMiddleware, HelmetMiddleware } from './common/middlewares';
 import { DocsModule } from './docs/docs.module';
 import { UserModule } from './user/user.module';
-import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { ThrottlerModule } from '@nestjs/throttler';
 import { JWTService } from './common/services/jwt/jwt.service';
 import { FileModule } from './file/file.module';
 import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard } from './common/guards/throttler.guard';
 
 @Module({
   imports: [
