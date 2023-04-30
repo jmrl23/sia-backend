@@ -10,11 +10,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-store';
 import { PrismaService } from './common/services/prisma/prisma.service';
-import {
-  RequestUserMiddleware,
-  BlockDisabledUserMiddleware,
-  HelmetMiddleware,
-} from './common/middlewares';
+import { RequestUserMiddleware, HelmetMiddleware } from './common/middlewares';
 import { DocsModule } from './docs/docs.module';
 import { UserModule } from './user/user.module';
 import { ThrottlerModule } from '@nestjs/throttler';
@@ -48,15 +44,9 @@ import { JWTService } from './common/services/jwt/jwt.service';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(
-        HelmetMiddleware,
-        RequestUserMiddleware,
-        BlockDisabledUserMiddleware,
-      )
-      .forRoutes({
-        path: '*',
-        method: RequestMethod.ALL,
-      });
+    consumer.apply(HelmetMiddleware, RequestUserMiddleware).forRoutes({
+      path: '*',
+      method: RequestMethod.ALL,
+    });
   }
 }

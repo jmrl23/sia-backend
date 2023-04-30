@@ -1,11 +1,13 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { ForbiddenException, ValidationPipe } from '@nestjs/common';
+import { RolesGuard, UserEnableGuard } from './common/guards';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get<ConfigService>(ConfigService);
+  const reflector = app.get(Reflector);
 
   app.enableCors({
     origin: (origin, done) => {
@@ -27,6 +29,8 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  app.useGlobalGuards(new UserEnableGuard(), new RolesGuard(reflector));
 
   await app.listen(configService.get<number>('PORT') ?? 3001);
 }
