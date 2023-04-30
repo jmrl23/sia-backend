@@ -321,6 +321,8 @@ fetch('https://sia-backend.serveo.net/user/list', requestOptions)
 
 Request for account reset password
 
+[UserResetPasswordDto](https://github.com/jmrl23/sia-backend/tree/main/src/user/dto/user-reset-password.dto.ts)
+
 > sample request
 
 ```js
