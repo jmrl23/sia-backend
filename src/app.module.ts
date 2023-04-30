@@ -15,6 +15,7 @@ import { DocsModule } from './docs/docs.module';
 import { UserModule } from './user/user.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { JWTService } from './common/services/jwt/jwt.service';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { JWTService } from './common/services/jwt/jwt.service';
     }),
     DocsModule,
     UserModule,
+    FileModule,
   ],
   providers: [PrismaService, JWTService],
 })

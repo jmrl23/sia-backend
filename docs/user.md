@@ -25,7 +25,7 @@ var requestOptions = {
   redirect: 'follow',
 };
 
-fetch('http://sia-backend.serveo.net/user/session', requestOptions)
+fetch('https://sia-backend.serveo.net/user/session', requestOptions)
   .then((response) => response.text())
   .then((result) => console.log(result))
   .catch((error) => console.log('error', error));
@@ -99,7 +99,7 @@ var requestOptions = {
   redirect: 'follow',
 };
 
-fetch('http://sia-backend.serveo.net/user/create', requestOptions)
+fetch('https://sia-backend.serveo.net/user/create', requestOptions)
   .then((response) => response.text())
   .then((result) => console.log(result))
   .catch((error) => console.log('error', error));
@@ -138,7 +138,7 @@ var requestOptions = {
   redirect: 'follow',
 };
 
-fetch('http://sia-backend.serveo.net/user/update', requestOptions)
+fetch('https://sia-backend.serveo.net/user/update', requestOptions)
   .then((response) => response.text())
   .then((result) => console.log(result))
   .catch((error) => console.log('error', error));
@@ -208,7 +208,7 @@ var requestOptions = {
   redirect: 'follow',
 };
 
-fetch('http://sia-backend.serveo.net/user/list', requestOptions)
+fetch('https://sia-backend.serveo.net/user/list', requestOptions)
   .then((response) => response.text())
   .then((result) => console.log(result))
   .catch((error) => console.log('error', error));

@@ -38,12 +38,15 @@
     "dotenv-cli": "^7.2.1",
     "ejs": "^3.1.9",
     "env-var": "^7.3.1",
+    "googleapis": "^118.0.0",
     "helmet": "^6.1.5",
     "jsonwebtoken": "^9.0.0",
     "marked": "^4.3.0",
+    "mime-types": "^2.1.35",
     "redis": "^4.6.6",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
@@ -54,8 +57,11 @@
     "@types/jest": "29.5.0",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/marked": "^4.0.8",
+    "@types/mime-types": "^2.1.1",
+    "@types/multer": "^1.4.7",
     "@types/node": "18.15.11",
     "@types/supertest": "^2.0.11",
+    "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^8.0.1",

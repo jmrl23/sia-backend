@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import {
   sign as jwtSign,
@@ -9,9 +9,7 @@ import {
 
 @Injectable()
 export class JWTService {
-  constructor(
-    @Inject(ConfigService) private readonly configService: ConfigService,
-  ) {}
+  constructor(private readonly configService: ConfigService) {}
 
   sign(payload: JwtPayload, options?: SignOptions) {
     return jwtSign(
