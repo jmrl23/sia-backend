@@ -9,6 +9,7 @@ import {
   UserUpdateDto,
 } from './dto';
 import { Role } from '@prisma/client';
+import { Throttle } from '@nestjs/throttler';
 
 @Controller('user')
 export class UserController {
@@ -30,6 +31,7 @@ export class UserController {
     return result;
   }
 
+  @Throttle(5, 60)
   @Post('sign-in')
   async signIn(@Body() userSignInDto: UserSignInDto) {
     const result = await this.userService.signIn(userSignInDto);

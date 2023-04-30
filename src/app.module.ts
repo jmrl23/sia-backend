@@ -13,9 +13,10 @@ import { PrismaService } from './common/services/prisma/prisma.service';
 import { RequestUserMiddleware, HelmetMiddleware } from './common/middlewares';
 import { DocsModule } from './docs/docs.module';
 import { UserModule } from './user/user.module';
-import { ThrottlerModule } from '@nestjs/throttler';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { JWTService } from './common/services/jwt/jwt.service';
 import { FileModule } from './file/file.module';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -36,13 +37,20 @@ import { FileModule } from './file/file.module';
     }),
     ThrottlerModule.forRoot({
       ttl: 60 * 5,
-      limit: 50,
+      limit: 100,
     }),
     DocsModule,
     UserModule,
     FileModule,
   ],
-  providers: [PrismaService, JWTService],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+    PrismaService,
+    JWTService,
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

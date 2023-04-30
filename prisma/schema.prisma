@@ -31,7 +31,6 @@ model User {
   residentNumber Int      @unique @default(autoincrement())
 
   enabled  Boolean @default(true)
-  verified Boolean @default(false)
   email    String
   password String
 
@@ -91,27 +90,6 @@ model UserInformation {
   pictureId String? @unique
 
   @@fulltext([firstName, middleName, lastName, nameSuffix, contactNumber])
-}
-
-model UserVerification {
-  id          String   @unique @default(uuid())
-  dateCreated DateTime @default(now())
-  dateUpdated DateTime @updatedAt
-
-  userId   String
-  code     String
-  expires  DateTime
-  consumed Boolean  @default(false)
-}
-
-model UserResetRequest {
-  id          String   @unique @default(uuid())
-  dateCreated DateTime @default(now())
-  dateUpdated DateTime @updatedAt
-
-  userId   String
-  expires  DateTime
-  consumed Boolean  @default(false)
 }
 
 model File {
