@@ -14,7 +14,7 @@ export class GmailService {
 
   getTransport(): Transporter<SMTPTransport.SentMessageInfo> {
     if (this.transport) return this.transport;
-    const url = this.configService.get<URL>('SMTP_TRANSPORT_URL');
+    const url = new URL(this.configService.get<string>('SMTP_TRANSPORT_URL'));
     const transport = createTransport({
       host: url.hostname,
       port: parseInt(url.port, 10),
@@ -32,7 +32,7 @@ export class GmailService {
     return this.getTransport();
   }
 
-  async sendEmail(mailOptions: MailOptions = {}) {
+  async sendEmail(mailOptions: MailOptions) {
     const transport = this.getTransport();
     const result = await transport.sendMail(mailOptions);
     return result;

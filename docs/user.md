@@ -8,6 +8,7 @@ User related actions
 - [/create](#create)
 - [/update](#update)
 - [/list](#list)
+- [/reset-password](#reset-password)
 
 ### session
 
@@ -313,5 +314,40 @@ fetch('https://sia-backend.serveo.net/user/list', requestOptions)
       }
     }
   ]
+}
+```
+
+### reset-password
+
+Request for account reset password
+
+> sample request
+
+```js
+var myHeaders = new Headers();
+myHeaders.append('Content-Type', 'application/json');
+
+var raw = JSON.stringify({
+  email: 'jojogaitera@gmail.com',
+});
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow',
+};
+
+fetch('https://sia-backend.serveo.net/user/reset-password', requestOptions)
+  .then((response) => response.text())
+  .then((result) => console.log(result))
+  .catch((error) => console.log('error', error));
+```
+
+> sample response
+
+```json
+{
+  "success": true
 }
 ```

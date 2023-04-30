@@ -17,7 +17,7 @@ export default () => ({
 
   JWT_SECRET: get('JWT_SECRET').required().asString(),
 
-  SMTP_TRANSPORT_URL: get('SMTP_TRANSPORT_URL').required().asUrlObject(),
+  SMTP_TRANSPORT_URL: get('SMTP_TRANSPORT_URL').required().asUrlString(),
 
   DRIVE_FOLDER_ID: get('DRIVE_FOLDER_ID').required().asString(),
 

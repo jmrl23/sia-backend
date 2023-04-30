@@ -1,21 +1,32 @@
-import { Controller, Get, Post, Req, Body, SetMetadata } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Req,
+  Body,
+  SetMetadata,
+  Param,
+  BadRequestException,
+  Res,
+} from '@nestjs/common';
 import { UserService } from './user.service';
-import { Request } from 'express';
-import { PrismaService } from 'src/common/services/prisma/prisma.service';
+import { Request, Response } from 'express';
 import {
   UserCreateDto,
   UserListDto,
+  UserResetPasswordDto,
   UserSignInDto,
   UserUpdateDto,
 } from './dto';
 import { Role } from '@prisma/client';
 import { Throttle } from '@nestjs/throttler';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('user')
 export class UserController {
   constructor(
     private readonly userService: UserService,
-    private readonly prismaService: PrismaService,
+    private readonly configService: ConfigService,
   ) {}
 
   @Get('session')
@@ -23,6 +34,18 @@ export class UserController {
     return {
       user: this.userService.getSession(request.user),
     };
+  }
+
+  @Get('reset-password/:id/:code')
+  async resetPassword(
+    @Param('id') id: string,
+    @Param('code') code: string,
+    @Res() response: Response,
+  ) {
+    const { token } = await this.userService.resetPassword(id, code);
+    if (!token) throw new BadRequestException('Invalid request');
+    const CLIENT_URL = this.configService.get<string>('CLIENT_URL');
+    response.redirect(`${CLIENT_URL}/sign-in?token=${token}`);
   }
 
   @Post('create')
@@ -42,6 +65,17 @@ export class UserController {
   @Post('update')
   async update(@Req() request: Request, @Body() userUpdateDto: UserUpdateDto) {
     const result = await this.userService.update(request.user, userUpdateDto);
+    return result;
+  }
+
+  @Throttle(3, 60 * 5)
+  @Post('reset-password')
+  async requestResetPassword(
+    @Body() userResetPasswordDto: UserResetPasswordDto,
+  ) {
+    const result = await this.userService.requestResetPassword(
+      userResetPasswordDto,
+    );
     return result;
   }
 

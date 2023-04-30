@@ -2,12 +2,14 @@ import {
   BadRequestException,
   Inject,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { User } from 'src/common/types/user';
 import {
   UserCreateDto,
   UserListDto,
+  UserResetPasswordDto,
   UserSignInDto,
   UserUpdateDto,
 } from './dto';
@@ -17,12 +19,20 @@ import { JWTService } from 'src/common/services/jwt/jwt.service';
 import { Role } from '@prisma/client';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { type Cache } from 'cache-manager';
+import { randomUUID } from 'crypto';
+import { generate as generatePassword } from 'generate-password';
+import { GmailService } from 'src/common/services/gmail/gmail.service';
+import { EJSService } from 'src/common/services/ejs/ejs.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly jwtService: JWTService,
+    private readonly gmailService: GmailService,
+    private readonly ejsService: EJSService,
+    private readonly configService: ConfigService,
     @Inject(CACHE_MANAGER) private readonly cacheService: Cache,
   ) {}
 
@@ -170,7 +180,6 @@ export class UserService {
     const users = await this.prismaService.user.findMany({
       where: {
         enabled: payload.enabled,
-        verified: payload.verified,
         email: payload.email,
         role: {
           in: payload.role,
@@ -229,6 +238,115 @@ export class UserService {
     return {
       users: serializedUsers,
     };
+  }
+
+  async requestResetPassword(payload: UserResetPasswordDto) {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        email: payload.email,
+      },
+    });
+
+    if (!user) throw new NotFoundException('User not found');
+
+    const expires = new Date();
+    const code = `${randomUUID()}-${generatePassword({ length: 10 })}`;
+    expires.setDate(expires.getDate() + 1);
+
+    const userResetPassword = await this.prismaService.userResetPassword.create(
+      {
+        data: {
+          userId: user.id,
+          expires,
+          code,
+        },
+      },
+    );
+
+    const html = await this.ejsService.render<{ url: string }>(
+      'user-reset-password',
+      {
+        url: `${this.configService.get<string>(
+          'CLIENT_URL',
+        )}/api/user/reset-password/${userResetPassword.id}/${
+          userResetPassword.code
+        }`,
+      },
+    );
+
+    await this.gmailService.sendEmail({
+      to: user.email,
+      subject: 'Account reset password',
+      html,
+    });
+
+    return { success: true };
+  }
+
+  async resetPassword(id: string, code: string) {
+    const userResetPassword =
+      await this.prismaService.userResetPassword.findFirst({
+        where: {
+          id,
+          consumed: false,
+          code,
+          expires: {
+            gt: new Date(),
+          },
+        },
+      });
+
+    if (!userResetPassword) {
+      throw new BadRequestException('Invalid request');
+    }
+
+    await this.prismaService.userResetPassword.update({
+      where: {
+        id: userResetPassword.id,
+      },
+      data: {
+        consumed: true,
+      },
+    });
+
+    const password = generatePassword({
+      length: 15,
+      numbers: true,
+    });
+
+    const hashedPassword = await this.hashPassword(password);
+    const user = await this.prismaService.user.update({
+      where: {
+        id: userResetPassword.userId,
+      },
+      data: {
+        password: hashedPassword,
+      },
+    });
+
+    const html = await this.ejsService.render<{ password: string }>(
+      'user-reset-password-notify',
+      {
+        password,
+      },
+    );
+    const token = this.jwtService.sign(
+      {
+        id: user.id,
+      },
+      {
+        expiresIn: '3 days',
+      },
+    );
+
+    await this.cacheService.del(`user.session.${user.id}`);
+    await this.gmailService.sendEmail({
+      to: user.email,
+      subject: 'Account reset password',
+      html,
+    });
+
+    return { token };
   }
 
   async hashPassword(password: string) {
