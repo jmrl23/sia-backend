@@ -23,6 +23,7 @@ export class RequestUserMiddleware implements NestMiddleware {
     const id = this.jwtService.verify<{ id: string }>(token)?.id;
     const cachedUser = await this.cacheService.get(`user.${id}`);
     if (!cachedUser) {
+      if (!id) return next();
       const user = await this.prismaService.user.findUnique({
         where: {
           id,
