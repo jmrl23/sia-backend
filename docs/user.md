@@ -187,7 +187,7 @@ fetch('https://sia-backend.serveo.net/user/update', requestOptions)
 
 Fetch list of users
 
-[UserListDto](<[UserCreateDto](https://github.com/jmrl23/sia-backend/tree/main/src/user/dto/user-list.dto.ts)>)
+[UserListDto](https://github.com/jmrl23/sia-backend/tree/main/src/user/dto/user-list.dto.ts)
 
 > sample request
 
