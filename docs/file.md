@@ -9,7 +9,7 @@ File related actions
 
 ### upload
 
-Upload file
+Upload files
 
 > sample request
 
