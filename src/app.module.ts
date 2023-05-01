@@ -9,15 +9,19 @@ import {
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-store';
-import { PrismaService } from './common/services/prisma/prisma.service';
-import { RequestUserMiddleware, HelmetMiddleware } from './common/middlewares';
 import { DocsModule } from './docs/docs.module';
 import { UserModule } from './user/user.module';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { PrismaService } from './common/services/prisma/prisma.service';
 import { JWTService } from './common/services/jwt/jwt.service';
 import { FileModule } from './file/file.module';
 import { APP_GUARD } from '@nestjs/core';
-import { ThrottlerGuard } from './common/guards/throttler.guard';
+import { ThrottlerGuard } from './common/guards';
+import {
+  RequestUserMiddleware,
+  HelmetMiddleware,
+  LoggerMiddleware,
+} from './common/middlewares';
 
 @Module({
   imports: [
@@ -55,9 +59,11 @@ import { ThrottlerGuard } from './common/guards/throttler.guard';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(HelmetMiddleware, RequestUserMiddleware).forRoutes({
-      path: '*',
-      method: RequestMethod.ALL,
-    });
+    consumer
+      .apply(LoggerMiddleware, HelmetMiddleware, RequestUserMiddleware)
+      .forRoutes({
+        path: '*',
+        method: RequestMethod.ALL,
+      });
   }
 }
