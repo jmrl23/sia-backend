@@ -11,10 +11,12 @@ async function bootstrap() {
 
   app.enableCors({
     origin: (origin, done) => {
-      const allowedOrigins = configService.get<string[]>('ALLOWED_ORIGIN');
+      const allowedOrigins = configService
+        .get<string>('ALLOWED_ORIGINS')
+        .split(',');
       if (!origin) return done(null, true);
       if (allowedOrigins.includes('*') && !allowedOrigins.includes(origin)) {
-        allowedOrigins.push(origin);
+        allowedOrigins?.push(origin);
       }
       if (!allowedOrigins?.includes(origin)) {
         throw new ForbiddenException('Blocked by CORS');

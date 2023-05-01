@@ -7,7 +7,7 @@ export default () => ({
 
   PORT: get('PORT').default(3001).asIntPositive(),
 
-  ALLOWED_ORIGINS: get('ALLOWED_ORIGINS').required().asArray(','),
+  ALLOWED_ORIGINS: get('ALLOWED_ORIGINS').required().asString(),
 
   NONCE: get('NONCE').default('keyboard_cat').asString(),
 
