@@ -95,7 +95,7 @@ export class UserService {
 
     if (!user) throw new BadRequestException('Email is incorrect');
 
-    const matched = compare(payload.password, user.password);
+    const matched = await compare(payload.password, user.password);
 
     if (!matched) throw new BadRequestException('Password is incorrect');
 
