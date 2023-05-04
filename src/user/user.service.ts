@@ -8,6 +8,7 @@ import {
 import { User } from 'src/common/types/user';
 import {
   UserCreateDto,
+  UserFetchDto,
   UserListDto,
   UserResetPasswordDto,
   UserSignInDto,
@@ -38,6 +39,45 @@ export class UserService {
 
   getSession(user: User) {
     return user ?? null;
+  }
+
+  async getData(payload: UserFetchDto) {
+    if (!payload.id && !payload.email) {
+      return {
+        user: null,
+      };
+    }
+
+    const cached = await this.cacheService.get(
+      `user.get-data.${JSON.stringify(payload)}`,
+    );
+    if (cached) {
+      return {
+        user: cached,
+      };
+    }
+
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        id: payload.id,
+        email: payload.email,
+      },
+      include: {
+        UserInformation: true,
+      },
+    });
+
+    delete user.password;
+
+    await this.cacheService.set(
+      `user.get-data.${JSON.stringify(payload)}`,
+      user,
+      60,
+    );
+
+    return {
+      user,
+    };
   }
 
   async createUser(payload: UserCreateDto) {

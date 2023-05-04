@@ -13,6 +13,7 @@ import { UserService } from './user.service';
 import { Request, Response } from 'express';
 import {
   UserCreateDto,
+  UserFetchDto,
   UserListDto,
   UserResetPasswordDto,
   UserSignInDto,
@@ -51,6 +52,13 @@ export class UserController {
   @Post('create')
   async create(@Body() userCreateDto: UserCreateDto) {
     const result = await this.userService.createUser(userCreateDto);
+    return result;
+  }
+
+  @SetMetadata('roles', [Role.ADMIN, Role.RESIDENT])
+  @Post('fetch')
+  async getData(@Body() payload: UserFetchDto) {
+    const result = await this.userService.getData(payload);
     return result;
   }
 
