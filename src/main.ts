@@ -32,7 +32,10 @@ async function bootstrap() {
     }),
   );
 
-  app.useGlobalGuards(new UserEnableGuard(), new RolesGuard(reflector));
+  app.useGlobalGuards(
+    new UserEnableGuard(),
+    new RolesGuard(reflector, configService),
+  );
 
   await app.listen(configService.get<number>('PORT') ?? 3001);
 }

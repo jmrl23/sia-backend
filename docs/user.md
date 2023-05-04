@@ -6,6 +6,7 @@ User related actions
 
 - [/session](#session)
 - [/create](#create)
+- [/fetch](#fetch)
 - [/update](#update)
 - [/list](#list)
 - [/reset-password](#reset-password)
@@ -42,7 +43,6 @@ fetch('https://sia-backend.serveo.net/user/session', requestOptions)
     "dateUpdated": "2023-04-29T21:41:27.298Z",
     "residentNumber": 2,
     "enabled": true,
-    "verified": false,
     "email": "jojogaitera@gmail.com",
     "role": "ADMIN",
     "residentStatus": "ACTIVE",
@@ -114,6 +114,73 @@ fetch('https://sia-backend.serveo.net/user/create', requestOptions)
 }
 ```
 
+### fetch
+
+Get user's data
+
+[UserFetchDto](https://github.com/jmrl23/sia-backend/tree/main/src/user/dto/user-fetch.dto.ts)
+
+> sample request
+
+```js
+var myHeaders = new Headers();
+myHeaders.append('Content-Type', 'application/json');
+myHeaders.append('Authorization', 'Bearer <token>');
+
+var raw = JSON.stringify({
+  email: 'connor@gmail.com',
+});
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow',
+};
+
+fetch('https://sia-backend.serveo.net/user/fetch', requestOptions)
+  .then((response) => response.text())
+  .then((result) => console.log(result))
+  .catch((error) => console.log('error', error));
+```
+
+> sample response
+
+```json
+{
+  "user": {
+    "id": "2b82fb47-2318-4e6b-aff9-39a09b08f848",
+    "dateCreated": "2023-05-03T14:55:23.148Z",
+    "dateUpdated": "2023-05-03T14:55:23.148Z",
+    "residentNumber": 15,
+    "enabled": true,
+    "email": "connor@gmail.com",
+    "role": "ADMIN",
+    "residentStatus": "ACTIVE",
+    "UserInformation": {
+      "id": "67d09670-74cb-40e7-82e5-026fb91d5ed2",
+      "dateCreated": "2023-05-03T14:55:23.148Z",
+      "dateUpdated": "2023-05-03T14:55:23.148Z",
+      "firstName": "Connor",
+      "middleName": null,
+      "lastName": "Ball",
+      "nameSuffix": null,
+      "address": "Taguig City",
+      "contactNumber": null,
+      "dateOfBirth": "2023-05-03T00:00:00.000Z",
+      "occupation": null,
+      "precinctNumber": null,
+      "emergencyContactPerson": null,
+      "sex": "MALE",
+      "bloodType": null,
+      "maritalStatus": "SINGLE",
+      "userId": "2b82fb47-2318-4e6b-aff9-39a09b08f848",
+      "pictureId": null
+    }
+  }
+}
+```
+
 ### update
 
 Update user's data
@@ -155,7 +222,6 @@ fetch('https://sia-backend.serveo.net/user/update', requestOptions)
     "dateUpdated": "2023-04-29T21:41:27.298Z",
     "residentNumber": 2,
     "enabled": true,
-    "verified": false,
     "email": "jojogaitera@gmail.com",
     "role": "ADMIN",
     "residentStatus": "ACTIVE",
@@ -226,7 +292,6 @@ fetch('https://sia-backend.serveo.net/user/list', requestOptions)
       "dateUpdated": "2023-04-30T04:45:13.765Z",
       "residentNumber": 3,
       "enabled": true,
-      "verified": false,
       "email": "jojogaitera2@gmail.com",
       "role": "ADMIN",
       "residentStatus": "ACTIVE",
@@ -257,7 +322,6 @@ fetch('https://sia-backend.serveo.net/user/list', requestOptions)
       "dateUpdated": "2023-04-29T21:41:27.298Z",
       "residentNumber": 2,
       "enabled": true,
-      "verified": false,
       "email": "jojogaitera@gmail.com",
       "role": "ADMIN",
       "residentStatus": "ACTIVE",
@@ -288,7 +352,6 @@ fetch('https://sia-backend.serveo.net/user/list', requestOptions)
       "dateUpdated": "2023-04-29T21:39:39.906Z",
       "residentNumber": 1,
       "enabled": true,
-      "verified": false,
       "email": "jojogaitera1@gmail.com",
       "role": "ADMIN",
       "residentStatus": "ACTIVE",
