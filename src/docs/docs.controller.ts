@@ -7,7 +7,7 @@ export class DocsController {
   constructor(private readonly docsService: DocsService) {}
 
   @Get()
-  @Header('Cache-Control', 'max-age=604800')
+  @Header('Cache-Control', 'max-age=3600')
   async index() {
     const files = await this.docsService.getList();
     const html = this.docsService.render(
@@ -30,7 +30,7 @@ export class DocsController {
   }
 
   @Get(':name([a-zA-Z-_]+.md)')
-  @Header('Cache-Control', 'max-age=604800')
+  @Header('Cache-Control', 'max-age=3600')
   async fetchDocs(@Param('name') name: string) {
     const data = await this.docsService.getData(name);
     const html = this.docsService.render(`Docs | ${name}`, marked(data));
