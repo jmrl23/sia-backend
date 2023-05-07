@@ -22,6 +22,8 @@ import {
   HelmetMiddleware,
   LoggerMiddleware,
 } from './common/middlewares';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -43,6 +45,9 @@ import {
     ThrottlerModule.forRoot({
       ttl: 60 * 5,
       limit: 100,
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '../public'),
     }),
     DocsModule,
     UserModule,

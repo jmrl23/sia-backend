@@ -62,7 +62,7 @@ export class UserController {
     return result;
   }
 
-  @Throttle(5, 60)
+  @Throttle(10, 60)
   @Post('sign-in')
   async signIn(@Body() userSignInDto: UserSignInDto) {
     const result = await this.userService.signIn(userSignInDto);
