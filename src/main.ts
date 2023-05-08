@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { ForbiddenException, ValidationPipe } from '@nestjs/common';
 import { RolesGuard, UserEnableGuard } from './common/guards';
+import * as detectPort from 'detect-port';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -37,6 +38,6 @@ async function bootstrap() {
     new RolesGuard(reflector, configService),
   );
 
-  await app.listen(configService.get<number>('PORT') ?? 3001);
+  await app.listen(await detectPort(configService.get<number>('PORT') ?? 3000));
 }
 bootstrap();

@@ -2,7 +2,7 @@ import { IsEmail, IsOptional, IsUUID } from 'class-validator';
 
 export class UserFetchDto {
   @IsOptional()
-  @IsUUID()
+  @IsUUID('all', { message: 'Invalid id' })
   readonly id?: string;
 
   @IsOptional()

@@ -10,7 +10,7 @@ export class HelmetMiddleware implements NestMiddleware {
   ) {}
 
   use(request: Request, response: Response, next: NextFunction) {
-    const trusted = [`'self`];
+    const trusted = [`'self'`];
 
     helmet({
       crossOriginResourcePolicy: {
