@@ -44,7 +44,7 @@ import { join } from 'path';
     }),
     ThrottlerModule.forRoot({
       ttl: 60 * 5,
-      limit: 100,
+      limit: 500,
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../public'),
