@@ -2,6 +2,7 @@ import {
   IsDateString,
   IsEnum,
   IsOptional,
+  IsBoolean,
   IsString,
   IsUUID,
   Length,
@@ -22,6 +23,10 @@ export class UserUpdateDto {
     message: 'Password is too weak',
   })
   readonly password?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  readonly enabled?: boolean;
 
   @IsOptional()
   @IsEnum(Role, { message: 'Invalid role' })

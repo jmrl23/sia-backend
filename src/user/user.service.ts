@@ -155,7 +155,10 @@ export class UserService {
     if (
       !user ||
       (user.id !== payload.id && user.role !== Role.ADMIN) ||
-      (user.role !== Role.ADMIN && 'role' in payload)
+      (user.role !== Role.ADMIN && 'role' in payload) ||
+      (user.role !== Role.ADMIN &&
+        'enabled' in payload &&
+        user.id === payload.id)
     ) {
       throw new UnauthorizedException('Cannot process the request');
     }
@@ -173,6 +176,7 @@ export class UserService {
       data: {
         password,
         role: payload.role,
+        enabled: payload.enabled,
         UserInformation: {
           update: {
             firstName: payload.firstName,
@@ -207,16 +211,6 @@ export class UserService {
   }
 
   async getList(payload: UserListDto) {
-    const cache = await this.cacheService.get(
-      `user.list.${JSON.stringify(payload)}`,
-    );
-
-    if (cache) {
-      return {
-        users: cache,
-      };
-    }
-
     const users = await this.prismaService.user.findMany({
       where: {
         enabled: payload.enabled,
@@ -269,11 +263,6 @@ export class UserService {
       if ('password' in user) delete user.password;
       return user;
     });
-
-    await this.cacheService.set(
-      `user.list.${JSON.stringify(payload)}`,
-      serializedUsers,
-    );
 
     return {
       users: serializedUsers,
