@@ -1,4 +1,5 @@
 import { BloodType, MaritalStatus, Role, Sex } from '@prisma/client';
+import { Transform } from 'class-transformer';
 import {
   IsArray,
   IsDateString,
@@ -27,6 +28,7 @@ export class UserListDto {
 
   @IsOptional()
   @IsEmail()
+  @Transform(({ value }) => value.toLowerCase().trim())
   readonly email?: string;
 
   @IsOptional()
@@ -35,6 +37,7 @@ export class UserListDto {
 
   @IsOptional()
   @IsString()
+  @Transform(({ value }) => value.trim())
   @MinLength(3)
   readonly address?: string;
 

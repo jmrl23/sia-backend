@@ -11,6 +11,7 @@ import {
 } from 'class-validator';
 
 import { BloodType, MaritalStatus, Role, Sex } from '@prisma/client';
+import { Transform } from 'class-transformer';
 
 export class UserUpdateDto {
   @IsUUID('all', { message: 'Invalid id' })
@@ -34,30 +35,37 @@ export class UserUpdateDto {
 
   @IsOptional()
   @IsString({ message: 'No firstname' })
+  @Transform(({ value }) => value.toLowerCase().trim())
   @MinLength(1, { message: 'Invalid firstname' })
   readonly firstName?: string;
 
   @IsOptional()
   @IsString({ message: 'No middlename' })
+  @Transform(({ value }) => value.toLowerCase().trim())
   @MinLength(1, { message: 'Invalid middlename' })
   readonly middleName?: string;
 
   @IsOptional()
   @IsString({ message: 'No lastname' })
+  @Transform(({ value }) => value.toLowerCase().trim())
   @MinLength(1, { message: 'Invalid lastname' })
   readonly lastName?: string;
 
   @IsOptional()
   @IsString({ message: 'Invalid suffix' })
+  @Transform(({ value }) => value.toLowerCase().trim())
   @MinLength(1, { message: 'Invalid suffix' })
   readonly nameSuffix?: string;
 
   @IsOptional()
+  @IsString()
+  @Transform(({ value }) => value.toLowerCase().trim())
   @Matches(/(^(\+63)(\d){10}$)/, { message: 'Invalid contact number' })
   readonly contactNumber?: string;
 
   @IsOptional()
   @IsString()
+  @Transform(({ value }) => value.trim())
   @MinLength(10)
   readonly address?: string;
 
@@ -79,6 +87,7 @@ export class UserUpdateDto {
 
   @IsOptional()
   @IsString()
+  @Transform(({ value }) => value.toLowerCase().trim())
   @MinLength(3)
   readonly occupation?: string;
 
