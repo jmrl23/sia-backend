@@ -37,7 +37,8 @@ model User {
   role           Role           @default(RESIDENT)
   residentStatus ResidentStatus @default(ACTIVE)
 
-  UserInformation UserInformation?
+  UserInformation   UserInformation?
+  UserResetPassword UserResetPassword[]
 
   @@unique([email])
 }
@@ -97,7 +98,9 @@ model UserResetPassword {
   dateCreated DateTime @default(now())
   dateUpdated DateTime @updatedAt
 
-  userId   String
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
   code     String
   consumed Boolean  @default(false)
   expires  DateTime

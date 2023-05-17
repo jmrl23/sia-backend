@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import { IsEmail, IsOptional, IsUUID } from 'class-validator';
 
 export class UserFetchDto {
@@ -7,5 +8,6 @@ export class UserFetchDto {
 
   @IsOptional()
   @IsEmail()
+  @Transform(({ value }) => value.toLowerCase().trim())
   readonly email?: string;
 }
