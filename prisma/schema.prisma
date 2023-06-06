@@ -69,16 +69,24 @@ model UserInformation {
   dateCreated DateTime @default(now())
   dateUpdated DateTime @updatedAt
 
-  firstName              String
-  middleName             String?
-  lastName               String
-  nameSuffix             String?
-  address                String
-  contactNumber          String?  @unique
-  dateOfBirth            DateTime
-  occupation             String?
-  precinctNumber         String?
-  emergencyContactPerson String?
+  firstName  String
+  middleName String?
+  lastName   String
+  nameSuffix String?
+
+  contactNumber  String?  @unique
+  dateOfBirth    DateTime
+  occupation     String?
+  precinctNumber String?
+
+  emergencyContactPerson       String?
+  emergencyContactRelationship String?
+  emergencyContactNumber       String?
+
+  // address
+  streetAddress String
+  city          String @default("Taguig City")
+  barangay      String @default("North Signal Village")
 
   sex           Sex
   bloodType     BloodType?

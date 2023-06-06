@@ -10,6 +10,7 @@ import {
   IsBoolean,
   IsEmail,
   MinLength,
+  Matches,
 } from 'class-validator';
 
 enum OrderBy {
@@ -28,7 +29,7 @@ export class UserListDto {
 
   @IsOptional()
   @IsEmail()
-  @Transform(({ value }) => value.toLowerCase().trim())
+  @Transform(({ value }) => value?.toLowerCase?.().trim())
   readonly email?: string;
 
   @IsOptional()
@@ -38,8 +39,33 @@ export class UserListDto {
   @IsOptional()
   @IsString()
   @Transform(({ value }) => value.trim())
-  @MinLength(3)
-  readonly address?: string;
+  @MinLength(5)
+  readonly streetAddress?: string;
+
+  @IsOptional()
+  @IsString()
+  @Transform(({ value }) => value.trim())
+  readonly city?: string;
+
+  @IsOptional()
+  @IsString()
+  @Transform(({ value }) => value.trim())
+  readonly barangay?: string;
+
+  @IsOptional()
+  @IsString({ message: 'Invalid precinct number' })
+  readonly precinctNumber?: string;
+
+  @IsOptional()
+  @IsString({ message: 'Invalid emergency contact person' })
+  readonly emergencyContactPerson?: string;
+
+  @IsOptional()
+  @IsString({ message: 'Invalid emergency contact number' })
+  @Matches(/(^(\+63)(\d){10}$)/, {
+    message: 'Invalid emergency contact number',
+  })
+  readonly emergencyContactNumber?: string;
 
   @IsOptional()
   @IsEnum(Sex, { message: 'Invalid sex' })
@@ -52,11 +78,6 @@ export class UserListDto {
   @IsOptional()
   @IsEnum(BloodType, { message: 'Invalid blood type' })
   readonly bloodType?: BloodType;
-
-  @IsOptional()
-  @IsString()
-  @MinLength(1)
-  readonly precinctNumber?: string;
 
   @IsArray()
   @IsEnum(Role, { each: true, message: 'Invalid role' })

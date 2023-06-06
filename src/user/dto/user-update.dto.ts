@@ -35,39 +35,33 @@ export class UserUpdateDto {
 
   @IsOptional()
   @IsString({ message: 'No firstname' })
-  @Transform(({ value }) => value.toLowerCase().trim())
+  @Transform(({ value }) => value?.toLowerCase?.().trim())
   @MinLength(1, { message: 'Invalid firstname' })
   readonly firstName?: string;
 
   @IsOptional()
   @IsString({ message: 'No middlename' })
-  @Transform(({ value }) => value.toLowerCase().trim())
+  @Transform(({ value }) => value?.toLowerCase?.().trim())
   @MinLength(1, { message: 'Invalid middlename' })
   readonly middleName?: string;
 
   @IsOptional()
   @IsString({ message: 'No lastname' })
-  @Transform(({ value }) => value.toLowerCase().trim())
+  @Transform(({ value }) => value?.toLowerCase?.().trim())
   @MinLength(1, { message: 'Invalid lastname' })
   readonly lastName?: string;
 
   @IsOptional()
   @IsString({ message: 'Invalid suffix' })
-  @Transform(({ value }) => value.toLowerCase().trim())
+  @Transform(({ value }) => value?.toLowerCase?.().trim())
   @MinLength(1, { message: 'Invalid suffix' })
   readonly nameSuffix?: string;
 
   @IsOptional()
   @IsString()
-  @Transform(({ value }) => value.toLowerCase().trim())
+  @Transform(({ value }) => value?.toLowerCase?.().trim())
   @Matches(/(^(\+63)(\d){10}$)/, { message: 'Invalid contact number' })
   readonly contactNumber?: string;
-
-  @IsOptional()
-  @IsString()
-  @Transform(({ value }) => value.trim())
-  @MinLength(10)
-  readonly address?: string;
 
   @IsOptional()
   @IsDateString(undefined, { message: 'Invalid date of birth' })
@@ -87,11 +81,43 @@ export class UserUpdateDto {
 
   @IsOptional()
   @IsString()
-  @Transform(({ value }) => value.toLowerCase().trim())
+  @Transform(({ value }) => value?.toLowerCase?.().trim())
   @MinLength(3)
   readonly occupation?: string;
 
   @IsOptional()
   @IsUUID()
   readonly pictureId?: string;
+
+  @IsOptional()
+  @IsString()
+  @MinLength(5)
+  readonly streetAddress?: string;
+
+  @IsOptional()
+  @IsString()
+  readonly city?: string;
+
+  @IsOptional()
+  @IsString()
+  readonly barangay?: string;
+
+  @IsOptional()
+  @IsString({ message: 'Invalid precinct number' })
+  readonly precinctNumber?: string;
+
+  @IsOptional()
+  @IsString({ message: 'Invalid emergency contact person' })
+  readonly emergencyContactPerson?: string;
+
+  @IsOptional()
+  @IsString({ message: 'Invalid emergency contact relationship' })
+  readonly emergencyContactRelationship?: string;
+
+  @IsOptional()
+  @IsString({ message: 'Invalid emergency contact number' })
+  @Matches(/(^(\+63)(\d){10}$)/, {
+    message: 'Invalid emergency contact number',
+  })
+  readonly emergencyContactNumber?: string;
 }

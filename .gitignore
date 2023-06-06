@@ -11,3 +11,4 @@ prisma/.env
 
 # extras
 ssh-key.pub
+ssh-key
