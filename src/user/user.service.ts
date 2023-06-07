@@ -48,32 +48,21 @@ export class UserService {
       };
     }
 
-    const cached = await this.cacheService.get(
-      `user.get-data.${JSON.stringify(payload)}`,
-    );
-    if (cached) {
-      return {
-        user: cached,
-      };
-    }
-
     const user = await this.prismaService.user.findUnique({
       where: {
         id: payload.id,
         email: payload.email,
       },
       include: {
-        UserInformation: true,
+        UserInformation: {
+          include: {
+            Picture: true,
+          },
+        },
       },
     });
 
     delete user.password;
-
-    await this.cacheService.set(
-      `user.get-data.${JSON.stringify(payload)}`,
-      user,
-      60,
-    );
 
     return {
       user,
@@ -207,7 +196,11 @@ export class UserService {
         },
       },
       include: {
-        UserInformation: true,
+        UserInformation: {
+          include: {
+            Picture: true,
+          },
+        },
       },
     });
 
@@ -266,7 +259,11 @@ export class UserService {
         },
       },
       include: {
-        UserInformation: true,
+        UserInformation: {
+          include: {
+            Picture: true,
+          },
+        },
       },
       orderBy: {
         dateCreated: payload.orderBy ?? 'desc',

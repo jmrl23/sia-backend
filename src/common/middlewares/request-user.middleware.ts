@@ -29,13 +29,17 @@ export class RequestUserMiddleware implements NestMiddleware {
           id,
         },
         include: {
-          UserInformation: true,
+          UserInformation: {
+            include: {
+              Picture: true,
+            },
+          },
         },
       });
       if (!user) return next();
       delete user.password;
       request.user = user;
-      await this.cacheService.set(`user.session.${id}`, request.user, 60);
+      await this.cacheService.set(`user.session.${id}`, request.user, 10000);
       return next();
     }
     request.user = cachedUser as unknown as User;

@@ -1,7 +1,12 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
-import { ForbiddenException, ValidationPipe } from '@nestjs/common';
+import {
+  type ValidationError,
+  ForbiddenException,
+  ValidationPipe,
+  BadRequestException,
+} from '@nestjs/common';
 import { RolesGuard, UserEnableGuard } from './common/guards';
 import * as detectPort from 'detect-port';
 
@@ -30,6 +35,20 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       transform: true,
+      exceptionFactory: (errors: ValidationError[]) => {
+        for (const error of errors) {
+          for (const constraint in error.constraints) {
+            const firstConstraint = error.constraints[constraint].split(' ');
+            const field = firstConstraint[0]
+              .replace(/([A-Z])/g, ' $1')
+              .trim()
+              .toLowerCase();
+            firstConstraint[0] = field;
+            const message = firstConstraint.join(' ');
+            throw new BadRequestException(message);
+          }
+        }
+      },
     }),
   );
 

@@ -82,7 +82,8 @@ export class UserCreateDto {
   readonly pictureId?: string;
 
   @IsString()
-  @MinLength(5)
+  @IsString({ message: 'Invalid Street Address' })
+  @MinLength(5, { message: 'Invalid Street Address' })
   readonly streetAddress: string;
 
   @IsOptional()

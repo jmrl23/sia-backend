@@ -24,6 +24,7 @@ import {
 } from './common/middlewares';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { LuponModule } from './lupon/lupon.module';
 
 @Module({
   imports: [
@@ -51,6 +52,7 @@ import { join } from 'path';
     }),
     DocsModule,
     UserModule,
+    LuponModule,
     FileModule,
   ],
   providers: [

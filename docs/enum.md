@@ -21,10 +21,14 @@ enum Sex {
 }
 
 enum BloodType {
-  O
-  A
-  B
-  AB
+  O_POSITIVE
+  O_NEGATIVE
+  A_POSITIVE
+  A_NEGATIVE
+  B_POSITIVE
+  B_NEGATIVE
+  AB_POSITIVE
+  AB_NEGATIVE
 }
 
 enum MaritalStatus {
@@ -34,4 +38,14 @@ enum MaritalStatus {
   SEPARATED
   WIDOWED
 }
+
+enum LuponCaseStatus {
+  PENDING
+  DISMISSED
+  REPUDIATED
+  DROPPED
+  CERTIFIED_TO_FILE_ACTION
+  OUTSIDE_JURISDICTION_OF_BARANGAY
+}
+
 ```
