@@ -171,6 +171,7 @@ export class UserService {
       data: {
         password,
         role: payload.role,
+        residentStatus: payload.residentStatus,
         enabled: payload.enabled,
         UserInformation: {
           update: {
@@ -196,6 +197,9 @@ export class UserService {
         },
       },
       include: {
+        LuponCase: true,
+        LuponTanggapan: true,
+        Clearance: true,
         UserInformation: {
           include: {
             Picture: true,
@@ -259,6 +263,9 @@ export class UserService {
         },
       },
       include: {
+        LuponCase: true,
+        LuponTanggapan: true,
+        Clearance: true,
         UserInformation: {
           include: {
             Picture: true,

@@ -18,6 +18,6 @@ export class LuponController {
   @SetMetadata('roles', [Role.ADMIN])
   @Post('case-update')
   caseUpdate(@Body() payload: LuponCaseUpdateDto) {
-    return this.luponService.caseUpdate(payload.id, payload);
+    return this.luponService.caseUpdate(payload);
   }
 }

@@ -29,6 +29,9 @@ export class RequestUserMiddleware implements NestMiddleware {
           id,
         },
         include: {
+          LuponCase: true,
+          LuponTanggapan: true,
+          Clearance: true,
           UserInformation: {
             include: {
               Picture: true,

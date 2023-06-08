@@ -3,6 +3,8 @@ import { LuponCaseCreateDto, LuponCaseUpdateDto } from './dto';
 import { PrismaService } from 'src/common/services/prisma/prisma.service';
 import type { Request } from 'express';
 
+// TODO: continue
+
 @Injectable()
 export class LuponService {
   constructor(private readonly prismaService: PrismaService) {}
@@ -28,10 +30,10 @@ export class LuponService {
     };
   }
 
-  async caseUpdate(id: string, payload: LuponCaseUpdateDto) {
+  async caseUpdate(payload: LuponCaseUpdateDto) {
     const result = await this.prismaService.luponCase.update({
       where: {
-        id,
+        id: payload.id,
       },
       data: {
         status: payload.status,

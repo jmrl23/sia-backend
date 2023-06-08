@@ -41,6 +41,7 @@ model User {
   UserResetPassword UserResetPassword[]
   LuponCase         LuponCase[]
   LuponTanggapan    LuponTanggapan[]
+  Clearance         Clearance[]
 
   @@unique([email])
 }
@@ -188,6 +189,38 @@ model LuponTanggapan {
 
   attachment   File   @relation("attachment", fields: [attachmentId], references: [id])
   attachmentId String
+
+  User   User   @relation(fields: [userId], references: [id])
+  userId String
+}
+
+enum ClearanceType {
+  EMPLOYMENT
+  POSTAL_ID
+  SENIOR_CITIZEN
+  BUSINESS_CLOSURE
+  BUSINESS
+  ELECTRICAL
+  HOUSE
+  FENCING
+  HOUSE_ASSESSMENT
+  OTHERS
+}
+
+model Clearance {
+  id          String   @unique @default(uuid())
+  dateCreated DateTime @default(now())
+  dateUpdated DateTime @updatedAt
+
+  clearanceType         ClearanceType
+  clearanceTypeOthers   String?
+  purposeOfClearance    String
+  registerVoterBarangay Boolean
+  businessAddress       String
+  nationality           String
+  placeOfBirth          String
+  numberOfYearsLiving   Int
+  confirmed             Boolean       @default(false)
 
   User   User   @relation(fields: [userId], references: [id])
   userId String

@@ -10,7 +10,13 @@ import {
   MinLength,
 } from 'class-validator';
 
-import { BloodType, MaritalStatus, Role, Sex } from '@prisma/client';
+import {
+  BloodType,
+  MaritalStatus,
+  Role,
+  Sex,
+  ResidentStatus,
+} from '@prisma/client';
 import { Transform } from 'class-transformer';
 
 export class UserUpdateDto {
@@ -78,6 +84,10 @@ export class UserUpdateDto {
   @IsOptional()
   @IsEnum(MaritalStatus, { message: 'Invalid marital status' })
   readonly maritalStatus?: MaritalStatus;
+
+  @IsOptional()
+  @IsEnum(ResidentStatus)
+  readonly residentStatus?: ResidentStatus;
 
   @IsOptional()
   @IsString()

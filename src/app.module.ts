@@ -25,6 +25,7 @@ import {
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { LuponModule } from './lupon/lupon.module';
+import { ClearanceModule } from './clearance/clearance.module';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { LuponModule } from './lupon/lupon.module';
     }),
     DocsModule,
     UserModule,
+    ClearanceModule,
     LuponModule,
     FileModule,
   ],

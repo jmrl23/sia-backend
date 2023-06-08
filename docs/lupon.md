@@ -1,6 +1,6 @@
 # Controller: lupon
 
-File related actions
+Lupon related actions
 
 ## Endponts
 
@@ -11,7 +11,7 @@ File related actions
 
 Create new case
 
-[LuponCaseCreate](https://github.com/jmrl23/sia-backend/tree/main/src/lupon/dto/lupon-case-create.dto.ts)
+[LuponCaseCreateDto](https://github.com/jmrl23/sia-backend/tree/main/src/lupon/dto/lupon-case-create.dto.ts)
 
 > sample request
 
@@ -71,7 +71,7 @@ fetch('https://sia-backend.serveo.net/lupon/case-create', requestOptions)
 
 Update case
 
-[LuponCaseUpdate](https://github.com/jmrl23/sia-backend/tree/main/src/lupon/dto/lupon-case-update.dto.ts)
+[LuponCaseUpdateDto](https://github.com/jmrl23/sia-backend/tree/main/src/lupon/dto/lupon-case-update.dto.ts)
 
 > sample request
 

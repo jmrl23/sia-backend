@@ -39,6 +39,19 @@ enum MaritalStatus {
   WIDOWED
 }
 
+enum ClearanceType {
+  EMPLOYMENT
+  POSTAL_ID
+  SENIOR_CITIZEN
+  BUSINESS_CLOSURE
+  BUSINESS
+  ELECTRICAL
+  HOUSE
+  FENCING
+  HOUSE_ASSESSMENT
+  OTHERS
+}
+
 enum LuponCaseStatus {
   PENDING
   DISMISSED
