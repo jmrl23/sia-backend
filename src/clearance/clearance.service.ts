@@ -19,7 +19,9 @@ export class ClearanceService {
         clearanceTypeOthers: payload.clearanceTypeOthers,
         purposeOfClearance: payload.purposeOfClearance,
         registerVoterBarangay: payload.registerVoterBarangay,
-        businessAddress: payload.businessAddress,
+        businessAddress: {
+          search: payload.businessAddress,
+        },
         nationality: payload.nationality,
         placeOfBirth: payload.placeOfBirth,
         numberOfYearsLiving: payload.numberOfYearsLiving,

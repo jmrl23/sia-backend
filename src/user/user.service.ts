@@ -54,6 +54,9 @@ export class UserService {
         email: payload.email,
       },
       include: {
+        LuponCase: true,
+        LuponTanggapan: true,
+        Clearance: true,
         UserInformation: {
           include: {
             Picture: true,
@@ -160,7 +163,7 @@ export class UserService {
 
     let password: string;
 
-    if (payload.password) {
+    if ('password' in payload) {
       password = await this.hashPassword(payload.password);
     }
 
