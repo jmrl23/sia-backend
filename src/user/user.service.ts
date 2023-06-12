@@ -55,7 +55,6 @@ export class UserService {
       },
       include: {
         LuponCase: true,
-        LuponTanggapan: true,
         Clearance: true,
         UserInformation: {
           include: {
@@ -201,7 +200,6 @@ export class UserService {
       },
       include: {
         LuponCase: true,
-        LuponTanggapan: true,
         Clearance: true,
         UserInformation: {
           include: {
@@ -267,7 +265,6 @@ export class UserService {
       },
       include: {
         LuponCase: true,
-        LuponTanggapan: true,
         Clearance: true,
         UserInformation: {
           include: {

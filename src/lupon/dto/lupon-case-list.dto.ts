@@ -1,4 +1,4 @@
-import { LuponCaseStatus } from '@prisma/client';
+import { LuponActionTaken } from '@prisma/client';
 import { Transform } from 'class-transformer';
 import {
   IsOptional,
@@ -7,8 +7,8 @@ import {
   IsInt,
   IsArray,
   IsEnum,
-  IsString,
   MinLength,
+  IsString,
 } from 'class-validator';
 
 enum OrderBy {
@@ -18,65 +18,56 @@ enum OrderBy {
 
 export class LuponCaseListDto {
   @IsOptional()
-  @IsString()
   @Transform(({ value }) => value?.trim?.())
-  @MinLength(5)
-  readonly title: string;
-
-  @IsOptional()
-  @IsString()
-  @Transform(({ value }) => value?.trim?.())
-  @MinLength(1)
-  readonly complaintNature: string;
-
-  @IsOptional()
-  @IsString()
-  @Transform(({ value }) => value?.trim?.())
-  @MinLength(1)
-  readonly statusOfCompliance: string;
+  @MinLength(2)
+  readonly title?: string;
 
   @IsOptional()
   @IsDateString()
-  readonly dateOfInitial: string;
+  readonly dateFiled?: string;
 
   @IsOptional()
   @IsDateString()
-  readonly dateOfSettled: string;
+  readonly dateOfConfrontation?: string;
+
+  @IsOptional()
+  @IsDateString()
+  readonly dateOfSettled?: string;
 
   @IsOptional()
   @IsString()
   @Transform(({ value }) => value?.trim?.())
-  @MinLength(1)
-  readonly remarks: string;
+  @MinLength(2)
+  readonly remarks?: string;
 
   @IsOptional()
   @IsString()
   @Transform(({ value }) => value?.trim?.())
-  @MinLength(1)
-  readonly mainPointOfAgreement: string;
+  @MinLength(2)
+  readonly mainPointOfAgreement?: string;
+
+  @IsOptional()
+  @IsEnum(LuponActionTaken)
+  readonly actionTaken?: LuponActionTaken;
 
   @IsOptional()
   @IsUUID()
-  readonly userId: string;
+  readonly evidenceFileId?: string;
 
   @IsOptional()
-  @IsEnum(LuponCaseStatus)
-  readonly status: LuponCaseStatus;
-
-  @IsOptional()
-  @IsDateString({}, { message: 'Invalid date created from' })
+  @IsDateString()
   readonly dateCreatedFrom?: string;
 
   @IsOptional()
-  @IsDateString({}, { message: 'Invalid date created to' })
+  @IsDateString()
   readonly dateCreatedTo?: string;
 
   @IsOptional()
-  @IsDateString({}, { message: 'Invalid date updated from' })
+  @IsDateString()
   readonly dateUpdatedFrom?: string;
 
   @IsOptional()
-  @IsDateString({}, { message: 'Invalid date updated to' })
+  @IsDateString()
   readonly dateUpdatedTo?: string;
 
   @IsOptional()
@@ -89,6 +80,6 @@ export class LuponCaseListDto {
 
   @IsOptional()
   @IsArray()
-  @IsEnum(OrderBy, { message: 'Order by should be only ASC or DESC' })
+  @IsEnum(OrderBy)
   readonly orderBy?: OrderBy;
 }

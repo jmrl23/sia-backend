@@ -41,7 +41,6 @@ model User {
   userInformationId String
   UserResetPassword UserResetPassword[]
   LuponCase         LuponCase[]
-  LuponTanggapan    LuponTanggapan[]
   Clearance         Clearance[]
 
   @@unique([email])
@@ -129,68 +128,10 @@ model File {
   mimeType String
   size     Int
 
-  UserInformation          UserInformation[]
-  LuponCase                LuponCase[]
-  LuponTanggapanSign       LuponTanggapan[]  @relation("sign")
-  LuponTanggapanAttachment LuponTanggapan[]  @relation("attachment")
+  UserInformation UserInformation[]
+  LuponCase       LuponCase[]
 
   @@index([fileId])
-}
-
-enum LuponCaseStatus {
-  PENDING
-  DISMISSED
-  REPUDIATED
-  DROPPED
-  CERTIFIED_TO_FILE_ACTION
-  OUTSIDE_JURISDICTION_OF_BARANGAY
-}
-
-model LuponCase {
-  id          String   @unique @default(uuid())
-  dateCreated DateTime @default(now())
-  dateUpdated DateTime @updatedAt
-  caseNumber  Int      @unique @default(autoincrement())
-
-  title                String
-  complaintNature      String
-  statusOfCompliance   String
-  dateOfInitial        DateTime @default(now())
-  dateOfSettled        DateTime
-  remarks              String
-  mainPointOfAgreement String
-
-  evidenceFile   File?   @relation(fields: [evidenceFileId], references: [id])
-  evidenceFileId String?
-
-  status LuponCaseStatus @default(PENDING)
-
-  User   User   @relation(fields: [userId], references: [id])
-  userId String
-}
-
-model LuponTanggapan {
-  id          String   @unique @default(uuid())
-  dateCreated DateTime @default(now())
-  dateUpdated DateTime @updatedAt
-
-  complainant       String
-  complained        String
-  conversationCount Int
-  about             String
-  report1           String
-  report2           String
-  date1             DateTime
-  date2             DateTime
-
-  sign   File   @relation("sign", fields: [signId], references: [id])
-  signId String
-
-  attachment   File   @relation("attachment", fields: [attachmentId], references: [id])
-  attachmentId String
-
-  User   User   @relation(fields: [userId], references: [id])
-  userId String
 }
 
 enum ClearanceType {
@@ -220,6 +161,44 @@ model Clearance {
   placeOfBirth          String
   numberOfYearsLiving   Int
   confirmed             Boolean       @default(false)
+
+  User   User   @relation(fields: [userId], references: [id])
+  userId String
+}
+
+enum LuponCaseStatus {
+  PENDING
+  DISMISSED
+  REPUDIATED
+  DROPPED
+  CERTIFIED_TO_FILE_ACTION
+  OUTSIDE_JURISDICTION_OF_BARANGAY
+}
+
+enum LuponActionTaken {
+  MEDIATION
+  CONCILATION_EVIDENCE
+}
+
+model LuponCase {
+  id          String   @unique @default(uuid())
+  dateCreated DateTime @default(now())
+  dateUpdated DateTime @updatedAt
+  caseNumber  Int      @unique @default(autoincrement())
+
+  title                String
+  respondentName       String
+  dateFiled            DateTime  @default(now())
+  dateOfConfrontation  DateTime?
+  dateOfSettled        DateTime?
+  remarks              String
+  mainPointOfAgreement String
+
+  actionTaken LuponActionTaken?
+  status      LuponCaseStatus   @default(PENDING)
+
+  evidenceFile   File?   @relation(fields: [evidenceFileId], references: [id])
+  evidenceFileId String?
 
   User   User   @relation(fields: [userId], references: [id])
   userId String

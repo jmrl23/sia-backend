@@ -20,13 +20,12 @@ export class ClearanceService {
         purposeOfClearance: payload.purposeOfClearance,
         registerVoterBarangay: payload.registerVoterBarangay,
         businessAddress: {
-          search: payload.businessAddress,
+          contains: payload.businessAddress,
         },
         nationality: payload.nationality,
         placeOfBirth: payload.placeOfBirth,
         numberOfYearsLiving: payload.numberOfYearsLiving,
         confirmed: payload.confirmed,
-        userId: payload.userId,
         dateCreated: {
           gte: payload.dateCreatedFrom,
           lte: payload.dateCreatedTo,
@@ -130,6 +129,14 @@ export class ClearanceService {
       },
       data: {
         confirmed: payload.confirmed,
+        clearanceType: payload.clearanceType,
+        clearanceTypeOthers: payload.clearanceTypeOthers,
+        purposeOfClearance: payload.purposeOfClearance,
+        registerVoterBarangay: payload.registerVoterBarangay,
+        businessAddress: payload.businessAddress,
+        nationality: payload.nationality,
+        placeOfBirth: payload.placeOfBirth,
+        numberOfYearsLiving: payload.numberOfYearsLiving,
       },
       include: {
         User: {

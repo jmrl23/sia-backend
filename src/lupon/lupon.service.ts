@@ -1,23 +1,27 @@
 import { Injectable } from '@nestjs/common';
-import {
-  LuponCaseCreateDto,
-  LuponCaseFetchDto,
-  LuponCaseListDto,
-  LuponCaseUpdateDto,
-} from './dto';
 import { PrismaService } from 'src/common/services/prisma/prisma.service';
+import { LuponCaseCreateDto, LuponCaseFetchDto, LuponCaseListDto } from './dto';
 import type { Request } from 'express';
 import { Role } from '@prisma/client';
+import { LuponCaseUpdateDto } from './dto/lupon-case-update.dto';
 
 @Injectable()
 export class LuponService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async caseFetch(request: Request, payload: LuponCaseFetchDto) {
-    const result = await this.prismaService.luponCase.findFirst({
-      where: {
-        id: payload.id,
-        userId: request.user.role === Role.ADMIN ? void 0 : request.user.id,
+  async caseCreate(request: Request, payload: LuponCaseCreateDto) {
+    const result = await this.prismaService.luponCase.create({
+      data: {
+        title: payload.title,
+        respondentName: payload.respondentName,
+        dateFiled: payload.dateFiled,
+        dateOfConfrontation: payload.dateOfConfrontation,
+        dateOfSettled: payload.dateOfSettled,
+        remarks: payload.remarks,
+        mainPointOfAgreement: payload.mainPointOfAgreement,
+        actionTaken: payload.actionTaken,
+        evidenceFileId: payload.evidenceFileId,
+        userId: request.user.id,
       },
       include: {
         User: {
@@ -32,8 +36,6 @@ export class LuponService {
       },
     });
 
-    delete result.User.password;
-
     return {
       case: result,
     };
@@ -43,24 +45,20 @@ export class LuponService {
     const result = await this.prismaService.luponCase.findMany({
       where: {
         title: {
-          search: payload.title,
+          contains: payload.title,
         },
-        complaintNature: {
-          search: payload.complaintNature,
-        },
-        statusOfCompliance: {
-          search: payload.statusOfCompliance,
-        },
-        dateOfInitial: payload.dateOfInitial,
+        dateFiled: payload.dateFiled,
+        dateOfConfrontation: payload.dateOfConfrontation,
         dateOfSettled: payload.dateOfSettled,
         remarks: {
-          search: payload.remarks,
+          contains: payload.remarks,
         },
         mainPointOfAgreement: {
-          search: payload.mainPointOfAgreement,
+          contains: payload.mainPointOfAgreement,
         },
-        userId: payload.userId,
-        status: payload.status,
+        actionTaken: payload.actionTaken,
+        evidenceFileId: payload.evidenceFileId,
+        userId: request.user.role === Role.ADMIN ? void 0 : request.user.id,
         dateCreated: {
           gte: payload.dateCreatedFrom,
           lte: payload.dateCreatedTo,
@@ -88,30 +86,15 @@ export class LuponService {
       skip: payload.skip,
     });
 
-    const noPasswordResult = result.map(($case) => {
-      delete $case.User.password;
-
-      return $case;
-    });
-
     return {
-      cases: noPasswordResult,
+      cases: result,
     };
   }
 
-  async caseCreate(request: Request, payload: LuponCaseCreateDto) {
-    const result = await this.prismaService.luponCase.create({
-      data: {
-        title: payload.title,
-        complaintNature: payload.complaintNature,
-        statusOfCompliance: payload.statusOfCompliance,
-        dateOfInitial: payload.dateOfInitial,
-        dateOfSettled: payload.dateOfSettled,
-        remarks: payload.remarks,
-        mainPointOfAgreement: payload.mainPointOfAgreement,
-        evidenceFileId: payload.evidenceFileId,
-        status: 'PENDING',
-        userId: request.user.id,
+  async caseFetch(payload: LuponCaseFetchDto) {
+    const result = await this.prismaService.luponCase.findUnique({
+      where: {
+        id: payload.id,
       },
       include: {
         User: {
@@ -137,7 +120,16 @@ export class LuponService {
         id: payload.id,
       },
       data: {
+        title: payload.title,
+        respondentName: payload.respondentName,
+        dateFiled: payload.dateFiled,
+        dateOfConfrontation: payload.dateOfConfrontation,
+        dateOfSettled: payload.dateOfSettled,
+        remarks: payload.remarks,
+        mainPointOfAgreement: payload.mainPointOfAgreement,
+        actionTaken: payload.actionTaken,
         status: payload.status,
+        evidenceFileId: payload.evidenceFileId,
       },
       include: {
         User: {

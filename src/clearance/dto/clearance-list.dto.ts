@@ -65,23 +65,19 @@ export class ClearanceListDto {
   readonly confirmed: boolean;
 
   @IsOptional()
-  @IsUUID()
-  readonly userId: string;
-
-  @IsOptional()
-  @IsDateString({}, { message: 'Invalid date created from' })
+  @IsDateString()
   readonly dateCreatedFrom?: string;
 
   @IsOptional()
-  @IsDateString({}, { message: 'Invalid date created to' })
+  @IsDateString()
   readonly dateCreatedTo?: string;
 
   @IsOptional()
-  @IsDateString({}, { message: 'Invalid date updated from' })
+  @IsDateString()
   readonly dateUpdatedFrom?: string;
 
   @IsOptional()
-  @IsDateString({}, { message: 'Invalid date updated to' })
+  @IsDateString()
   readonly dateUpdatedTo?: string;
 
   @IsOptional()
@@ -94,6 +90,6 @@ export class ClearanceListDto {
 
   @IsOptional()
   @IsArray()
-  @IsEnum(OrderBy, { message: 'Order by should be only ASC or DESC' })
+  @IsEnum(OrderBy)
   readonly orderBy?: OrderBy;
 }

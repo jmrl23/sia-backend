@@ -53,50 +53,50 @@ export class UserListDto {
   readonly barangay?: string;
 
   @IsOptional()
-  @IsString({ message: 'Invalid precinct number' })
+  @IsString()
   readonly precinctNumber?: string;
 
   @IsOptional()
-  @IsString({ message: 'Invalid emergency contact person' })
+  @IsString()
   readonly emergencyContactPerson?: string;
 
   @IsOptional()
-  @IsString({ message: 'Invalid emergency contact number' })
+  @IsString()
   @Matches(/(^(\+63)(\d){10}$)/, {
     message: 'Invalid emergency contact number',
   })
   readonly emergencyContactNumber?: string;
 
   @IsOptional()
-  @IsEnum(Sex, { message: 'Invalid sex' })
+  @IsEnum(Sex)
   readonly sex?: Sex;
 
   @IsOptional()
-  @IsEnum(MaritalStatus, { message: 'Invalid marital status' })
+  @IsEnum(MaritalStatus)
   readonly maritalStatus?: MaritalStatus;
 
   @IsOptional()
-  @IsEnum(BloodType, { message: 'Invalid blood type' })
+  @IsEnum(BloodType)
   readonly bloodType?: BloodType;
 
   @IsArray()
-  @IsEnum(Role, { each: true, message: 'Invalid role' })
+  @IsEnum(Role, { each: true })
   readonly role: Role[];
 
   @IsOptional()
-  @IsDateString({}, { message: 'Invalid date created from' })
+  @IsDateString()
   readonly dateCreatedFrom?: string;
 
   @IsOptional()
-  @IsDateString({}, { message: 'Invalid date created to' })
+  @IsDateString()
   readonly dateCreatedTo?: string;
 
   @IsOptional()
-  @IsDateString({}, { message: 'Invalid date updated from' })
+  @IsDateString()
   readonly dateUpdatedFrom?: string;
 
   @IsOptional()
-  @IsDateString({}, { message: 'Invalid date updated to' })
+  @IsDateString()
   readonly dateUpdatedTo?: string;
 
   @IsOptional()
@@ -109,6 +109,6 @@ export class UserListDto {
 
   @IsOptional()
   @IsArray()
-  @IsEnum(OrderBy, { message: 'Order by should be only ASC or DESC' })
+  @IsEnum(OrderBy)
   readonly orderBy?: OrderBy;
 }

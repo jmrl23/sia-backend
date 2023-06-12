@@ -6,6 +6,7 @@ User related actions
 
 - [/session](#session)
 - [/create](#create)
+- [/sign-in](#sign-in)
 - [/fetch](#fetch)
 - [/update](#update)
 - [/list](#list)
@@ -111,6 +112,46 @@ fetch('https://sia-backend.serveo.net/user/create', requestOptions)
 ```json
 {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUwOWU5OWUzLTgyOTUtNDA0Mi05YTg1LTA1OWFjYTQzY2YyZSIsImlhdCI6MTY4MjgyOTkxNCwiZXhwIjoxNjgzMDg5MTE0fQ.NWf5E9nQbKVbNaBCPITLxHT6XuN2Ob3ClbOz0GA2eKU"
+}
+```
+
+### sign-in
+
+User sign-in
+
+> sample request
+
+```js
+var myHeaders = new Headers();
+myHeaders.append('Content-Type', 'application/json');
+myHeaders.append(
+  'Authorization',
+  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIwMWNhNTU1LTdlNDEtNGU1ZS1hNzc5LTA5ZWNlN2JkMGVhMCIsImlhdCI6MTY4NjIyNjc2NiwiZXhwIjoxNjg2NDg1OTY2fQ.WdjEY-ieB5FJIvT6J2V8pDuJMNxyWUP72Y1IKVAsjy8',
+);
+
+var raw = JSON.stringify({
+  email: 'johndoe@email.com',
+  password: 'hotdog1234',
+});
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow',
+};
+
+fetch('https://sia-backend.serveo.net/user/sign-in', requestOptions)
+  .then((response) => response.text())
+  .then((result) => console.log(result))
+  .catch((error) => console.log('error', error));
+```
+
+> sample response
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg3OGQ4NjI1LWEyODQtNDI2Yy04YjU3LWZjYzMzY2IwNTk5MCIsImlhdCI6MTY4NjU4ODExOCwiZXhwIjoxNjg2ODQ3MzE4fQ.OIVCHO58RyXeuzu9fB5PXB9cCL_7PJwhy1V1LLEiqI8"
 }
 ```
 
