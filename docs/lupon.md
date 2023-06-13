@@ -199,53 +199,87 @@ Create new case
 
 ```js
 var myHeaders = new Headers();
-myHeaders.append('Content-Type', 'application/json');
-myHeaders.append('Authorization', 'Bearer <token>');
+myHeaders.append("Content-Type", "application/json");
+myHeaders.append("Authorization", "Bearer <token>");
 
 var raw = JSON.stringify({
-  title: 'kemene',
-  complaintNature: 'xdd',
-  statusOfCompliance: 'ewan',
-  dateOfInitial: '2023-06-07T16:50:42.710Z',
-  dateOfSettled: '2023-06-07T16:50:42.710Z',
-  remarks: 'khkhkh',
-  mainPointOfAgreement: 'wala',
-  evidenceFileId: '1e5272d7-95f7-4f3a-a46c-9473c7c3e5f0',
+  "title": "Mabahong headset",
+  "respondentName": "Totoy Brown",
+  "dateFiled": "2023-06-12T15:57:07.150Z",
+  "remarks": "Hindi naliligo kaya nangangamoy mga headset sa computer shop",
+  "mainPointOfAgreement": "Nang maiwasan ang pagbaho ng mga headset"
 });
 
 var requestOptions = {
   method: 'POST',
   headers: myHeaders,
   body: raw,
-  redirect: 'follow',
+  redirect: 'follow'
 };
 
-fetch('https://sia-backend.serveo.net/lupon/case-create', requestOptions)
-  .then((response) => response.text())
-  .then((result) => console.log(result))
-  .catch((error) => console.log('error', error));
+fetch("https://sia-backend.serveo.net/lupon/case-create", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
 ```
 
 > sample response
 
 ```json
 {
-  "case": {
-    "id": "a9c34525-a282-4ecd-9ef3-2492f4cbb74c",
-    "dateCreated": "2023-06-07T16:54:47.181Z",
-    "dateUpdated": "2023-06-07T16:54:47.181Z",
-    "caseNumber": 2,
-    "title": "kemene",
-    "complaintNature": "xdd",
-    "statusOfCompliance": "ewan",
-    "dateOfInitial": "2023-06-07T16:50:42.710Z",
-    "dateOfSettled": "2023-06-07T16:50:42.710Z",
-    "remarks": "khkhkh",
-    "mainPointOfAgreement": "wala",
-    "evidenceFileId": "1e5272d7-95f7-4f3a-a46c-9473c7c3e5f0",
-    "status": "PENDING",
-    "userId": "02a9c606-e548-4f0b-9552-1289a2443245"
-  }
+    "case": {
+        "id": "7bc2a39f-2a20-494f-9d34-5c8c8128adcb",
+        "dateCreated": "2023-06-13T04:33:18.926Z",
+        "dateUpdated": "2023-06-13T04:33:18.926Z",
+        "caseNumber": 2,
+        "title": "Mabahong headset",
+        "respondentName": "Totoy Brown",
+        "dateFiled": "2023-06-12T15:57:07.150Z",
+        "dateOfConfrontation": null,
+        "dateOfSettled": null,
+        "remarks": "Hindi naliligo kaya nangangamoy mga headset sa computer shop",
+        "mainPointOfAgreement": "Nang maiwasan ang pagbaho ng mga headset",
+        "actionTaken": null,
+        "status": "PENDING",
+        "evidenceFileId": null,
+        "userId": "878d8625-a284-426c-8b57-fcc33cb05990",
+        "User": {
+            "id": "878d8625-a284-426c-8b57-fcc33cb05990",
+            "dateCreated": "2023-06-10T14:25:16.461Z",
+            "dateUpdated": "2023-06-10T14:25:16.461Z",
+            "residentNumber": 4,
+            "enabled": true,
+            "email": "johndoe@email.com",
+            "password": "$2b$04$5GzumZ3cs1cApXWeFEMDvO9rOB46mMbWlr/vy093FSMWMfJGdQr36",
+            "role": "ADMIN",
+            "residentStatus": "ACTIVE",
+            "userInformationId": "b136e926-e717-49c2-852d-8d437c8527ab",
+            "UserInformation": {
+                "id": "b136e926-e717-49c2-852d-8d437c8527ab",
+                "dateCreated": "2023-06-10T14:25:16.461Z",
+                "dateUpdated": "2023-06-10T14:25:16.461Z",
+                "firstName": "john",
+                "middleName": null,
+                "lastName": "doe",
+                "nameSuffix": null,
+                "contactNumber": null,
+                "dateOfBirth": "2001-06-10T00:00:00.000Z",
+                "occupation": null,
+                "precinctNumber": null,
+                "emergencyContactPerson": null,
+                "emergencyContactRelationship": null,
+                "emergencyContactNumber": null,
+                "streetAddress": "asdasd",
+                "city": "hotdogan",
+                "barangay": "North Signal Village",
+                "sex": "MALE",
+                "bloodType": null,
+                "maritalStatus": "SINGLE",
+                "pictureId": null,
+                "Picture": null
+            }
+        }
+    }
 }
 ```
 
