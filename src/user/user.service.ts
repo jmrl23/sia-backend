@@ -54,7 +54,11 @@ export class UserService {
         email: payload.email,
       },
       include: {
-        LuponCase: true,
+        LuponCase: {
+          include: {
+            evidenceFile: true,
+          },
+        },
         Clearance: true,
         UserInformation: {
           include: {
@@ -199,7 +203,11 @@ export class UserService {
         },
       },
       include: {
-        LuponCase: true,
+        LuponCase: {
+          include: {
+            evidenceFile: true,
+          },
+        },
         Clearance: true,
         UserInformation: {
           include: {
@@ -264,7 +272,11 @@ export class UserService {
         },
       },
       include: {
-        LuponCase: true,
+        LuponCase: {
+          include: {
+            evidenceFile: true,
+          },
+        },
         Clearance: true,
         UserInformation: {
           include: {

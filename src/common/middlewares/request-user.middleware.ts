@@ -29,7 +29,11 @@ export class RequestUserMiddleware implements NestMiddleware {
           id,
         },
         include: {
-          LuponCase: true,
+          LuponCase: {
+            include: {
+              evidenceFile: true,
+            },
+          },
           Clearance: true,
           UserInformation: {
             include: {
