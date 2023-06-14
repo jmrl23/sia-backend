@@ -24,6 +24,7 @@ export class LuponService {
         userId: request.user.id,
       },
       include: {
+        evidenceFile: true,
         User: {
           include: {
             UserInformation: {
@@ -69,6 +70,7 @@ export class LuponService {
         },
       },
       include: {
+        evidenceFile: true,
         User: {
           include: {
             UserInformation: {
@@ -97,6 +99,7 @@ export class LuponService {
         id: payload.id,
       },
       include: {
+        evidenceFile: true,
         User: {
           include: {
             UserInformation: {
@@ -132,6 +135,7 @@ export class LuponService {
         evidenceFileId: payload.evidenceFileId,
       },
       include: {
+        evidenceFile: true,
         User: {
           include: {
             UserInformation: {
