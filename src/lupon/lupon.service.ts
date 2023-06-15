@@ -37,6 +37,8 @@ export class LuponService {
       },
     });
 
+    delete result.User.password;
+
     return {
       case: result,
     };
@@ -48,6 +50,9 @@ export class LuponService {
         title: {
           contains: payload.title,
         },
+        respondentName: {
+          contains: payload.respondentName,
+        },
         dateFiled: payload.dateFiled,
         dateOfConfrontation: payload.dateOfConfrontation,
         dateOfSettled: payload.dateOfSettled,
@@ -58,6 +63,7 @@ export class LuponService {
           contains: payload.mainPointOfAgreement,
         },
         actionTaken: payload.actionTaken,
+        status: payload.status,
         evidenceFileId: payload.evidenceFileId,
         userId: request.user.role === Role.ADMIN ? void 0 : request.user.id,
         dateCreated: {
@@ -88,8 +94,14 @@ export class LuponService {
       skip: payload.skip,
     });
 
+    const noPasswordResult = result.map((caseItem) => {
+      delete caseItem.User.password;
+
+      return caseItem;
+    });
+
     return {
-      cases: result,
+      cases: noPasswordResult,
     };
   }
 
@@ -111,6 +123,8 @@ export class LuponService {
         },
       },
     });
+
+    delete result.User.password;
 
     return {
       case: result,
@@ -147,6 +161,8 @@ export class LuponService {
         },
       },
     });
+
+    delete result.User.password;
 
     return {
       case: result,

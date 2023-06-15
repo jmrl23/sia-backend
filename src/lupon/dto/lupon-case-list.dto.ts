@@ -1,4 +1,4 @@
-import { LuponActionTaken } from '@prisma/client';
+import { LuponActionTaken, LuponCaseStatus } from '@prisma/client';
 import { Transform } from 'class-transformer';
 import {
   IsOptional,
@@ -21,6 +21,12 @@ export class LuponCaseListDto {
   @Transform(({ value }) => value?.trim?.())
   @MinLength(2)
   readonly title?: string;
+
+  @IsOptional()
+  @IsString()
+  @Transform(({ value }) => value?.trim?.())
+  @MinLength(2)
+  readonly respondentName?: string;
 
   @IsOptional()
   @IsDateString()
@@ -49,6 +55,10 @@ export class LuponCaseListDto {
   @IsOptional()
   @IsEnum(LuponActionTaken)
   readonly actionTaken?: LuponActionTaken;
+
+  @IsOptional()
+  @IsEnum(LuponCaseStatus)
+  readonly status?: LuponCaseStatus;
 
   @IsOptional()
   @IsUUID()
